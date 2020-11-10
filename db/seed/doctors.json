@@ -1,0 +1,122 @@
+[
+  {
+    "slug": "dr-lay-raphael",
+    "name": "Dr. Lay Raphael",
+    "city": "Citampian",
+    "country": "Indonesia",
+    "quno_score_number": 8.5,
+    "ratings_average": 4.8,
+    "treatments_last_year": 2490,
+    "years_experience": 15,
+    "base_price": 1355.76,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-wallie-lagden",
+    "name": "Dr. Wallie Lagden",
+    "city": "Roza",
+    "country": "Russia",
+    "quno_score_number": 7.1,
+    "ratings_average": 4.5,
+    "treatments_last_year": 2218,
+    "years_experience": 7,
+    "base_price": 4934.98,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-monty-guinan",
+    "name": "Dr. Monty Guinan",
+    "city": "Dehui",
+    "country": "China",
+    "quno_score_number": 7.2,
+    "ratings_average": 4.0,
+    "treatments_last_year": 1980,
+    "years_experience": 6,
+    "base_price": 1244.82,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-allis-outridge",
+    "name": "Dr. Allis Outridge",
+    "city": "Świnice Warckie",
+    "country": "Poland",
+    "quno_score_number": 8.3,
+    "ratings_average": 3.5,
+    "treatments_last_year": 392,
+    "years_experience": 11,
+    "base_price": 1387.41,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-cayla-loftie",
+    "name": "Dr. Cayla Loftie",
+    "city": "El Paso",
+    "country": "United States",
+    "quno_score_number": 9.7,
+    "ratings_average": 4.1,
+    "treatments_last_year": 1270,
+    "years_experience": 5,
+    "base_price": 3715.79,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-zak-beesley",
+    "name": "Dr. Zak Beesley",
+    "city": "San Antonio",
+    "country": "Mexico",
+    "quno_score_number": 9.6,
+    "ratings_average": 3.9,
+    "treatments_last_year": 2775,
+    "years_experience": 5,
+    "base_price": 1604.71,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-linus-rogier",
+    "name": "Dr. Linus Rogier",
+    "city": "Xilanqi",
+    "country": "China",
+    "quno_score_number": 8.7,
+    "ratings_average": 5.0,
+    "treatments_last_year": 1446,
+    "years_experience": 5,
+    "base_price": 4185.5,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-annora-chiddy",
+    "name": "Dr. Annora Chiddy",
+    "city": "Jishigang",
+    "country": "China",
+    "quno_score_number": 8.2,
+    "ratings_average": 4.8,
+    "treatments_last_year": 497,
+    "years_experience": 15,
+    "base_price": 3732.29,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-scotty-baroc",
+    "name": "Dr. Scotty Baroc",
+    "city": "Draguignan",
+    "country": "France",
+    "quno_score_number": 6.6,
+    "ratings_average": 4.2,
+    "treatments_last_year": 2656,
+    "years_experience": 9,
+    "base_price": 3415.44,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+  {
+    "slug": "dr-matthus-fitzjohn",
+    "name": "Dr. Matthus Fitzjohn",
+    "city": "Kowang Utara",
+    "country": "Indonesia",
+    "quno_score_number": 7.2,
+    "ratings_average": 4.0,
+    "treatments_last_year": 1390,
+    "years_experience": 13,
+    "base_price": 3651.54,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  }
+]
