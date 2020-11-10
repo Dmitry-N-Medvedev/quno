@@ -8,8 +8,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "build": "tsc --build --verbose",
     "clean": "rm -rf ./dist",
-    "dev": "yarn build && serverless offline start --httpPort 4000 --noPrependStageInUrl --noAuth",
-    "start": "yarn dev",
+    "dev": "pnpm build && serverless offline start --httpPort 4000 --noPrependStageInUrl --noAuth",
+    "start": "pnpm dev",
     "db:migration": "db-migrate --sql-file --config ./db/config.json --migrations-dir ./db/migrations"
   },
   "devDependencies": {
