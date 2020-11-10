@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "quno_challenge_db",
+    "password": "localpwd",
+    "host": "localhost",
+    "database": "quno_challenge_db",
+    "port": "54320"
+  }
+}

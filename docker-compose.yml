@@ -1,0 +1,13 @@
+version: "3.1"
+services:
+  db:
+    image: "postgres:12-alpine"
+    container_name: "quno_challenge_pg"
+    environment:
+      - POSTGRES_USER=quno_challenge_db
+      - POSTGRES_PASSWORD=localpwd
+      - POSTGRES_DB=quno_challenge_db
+    ports:
+      - "54320:5432"
+    volumes:
+      - /tmp/postgres-data:/var/lib/postgresql/data

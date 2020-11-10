@@ -1,0 +1,26 @@
+{
+  "name": "quno-challenge-backend",
+  "version": "1.0.0",
+  "description": "Quno challenge for Backend",
+  "author": "Qunomedical",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint 'src/**/*.ts'",
+    "build": "tsc --build --verbose",
+    "clean": "rm -rf ./dist",
+    "dev": "yarn build && serverless offline start --httpPort 4000 --noPrependStageInUrl --noAuth",
+    "start": "yarn dev",
+    "db:migration": "db-migrate --sql-file --config ./db/config.json --migrations-dir ./db/migrations"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.64",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "db-migrate": "^0.11.11",
+    "db-migrate-pg": "^1.2.2",
+    "eslint": "^7.12.1",
+    "serverless": "^2.9.0",
+    "serverless-offline": "^6.8.0",
+    "typescript": "^4.0.5"
+  }
+}
