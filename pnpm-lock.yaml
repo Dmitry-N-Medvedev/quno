@@ -2,6 +2,9 @@ importers:
   .:
     specifiers: {}
   src/libdata:
+    dependencies:
+      nanoid: 3.1.16
+      stream-json: 1.7.1
     devDependencies:
       c8: 7.3.5
       chai: 4.2.0
@@ -24,6 +27,8 @@ importers:
       eslint-plugin-import: ^2.22.1
       eslint-plugin-node: ^11.1.0
       mocha: ^8.2.1
+      nanoid: ^3.1.16
+      stream-json: ^1.7.1
 lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.10.4:
@@ -1520,6 +1525,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-1qstj9z5+x491jfiC4Nelk+f8XBad7LN20PmyWINJEMRSf3wcAjAWysw1qaA8z6NSKe2sjq1hRSDpBH5paCb6A==
+  /nanoid/3.1.16:
+    dev: false
+    engines:
+      node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1
+    hasBin: true
+    resolution:
+      integrity: sha512-+AK8MN0WHji40lj8AEuwLOvLSbWYApQpre/aFJZD71r43wVRLrOYS4FmJOPQYon1TqB462RzrrxlfA74XRES8w==
   /natural-compare/1.4.0:
     dev: true
     resolution:
@@ -1992,6 +2004,16 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==
+  /stream-chain/2.2.3:
+    dev: false
+    resolution:
+      integrity: sha512-w+WgmCZ6BItPAD3/4HD1eDiDHRLhjSSyIV+F0kcmmRyz8Uv9hvQF22KyaiAUmOlmX3pJ6F95h+C191UbS8Oe/g==
+  /stream-json/1.7.1:
+    dependencies:
+      stream-chain: 2.2.3
+    dev: false
+    resolution:
+      integrity: sha512-I7g0IDqvdJXbJ279/D3ZoTx0VMhmKnEF7u38CffeWdF8bfpMPsLo+5fWnkNjO2GU/JjWaRjdH+zmH03q+XGXFw==
   /string-width/2.1.1:
     dependencies:
       is-fullwidth-code-point: 2.0.0
