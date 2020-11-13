@@ -8,6 +8,23 @@ It is a database adapter for Redis.
 2. `getDoctor` returns details of the doctor identified by the `id`
 3. `saveDoctor` saves the doctor represented by the payload in the body in the database
 
+### a doctor struct
+
+```javascript
+  {
+    "slug": "dr-lay-raphael",
+    "name": "Dr. Lay Raphael",
+    "city": "Citampian",
+    "country": "Indonesia",
+    "quno_score_number": 8.5,
+    "ratings_average": 4.8,
+    "treatments_last_year": 2490,
+    "years_experience": 15,
+    "base_price": 1355.76,
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  },
+```
+
 ### getDoctors
 
 This should return the list of all doctors, with ordering, sorting and pagination capabilities. The following parameters should be accepted via query parameters:
