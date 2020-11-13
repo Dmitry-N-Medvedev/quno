@@ -1,26 +1,20 @@
 {
-  "name": "quno-challenge-backend",
-  "version": "1.0.0",
+  "name": "@dmitry-n-medvedev/quno-challenge-backend",
+  "version": "0.0.0",
   "description": "Quno challenge for Backend",
-  "author": "Qunomedical",
-  "license": "MIT",
-  "scripts": {
-    "lint": "eslint 'src/**/*.ts'",
-    "build": "tsc --build --verbose",
-    "clean": "rm -rf ./dist",
-    "dev": "pnpm build && serverless offline start --httpPort 4000 --noPrependStageInUrl --noAuth",
-    "start": "pnpm dev",
-    "db:migration": "db-migrate --sql-file --config ./db/config.json --migrations-dir ./db/migrations"
+  "engines": {
+    "node": "=15.2.0",
+    "pnpm": "=5.11.1"
   },
-  "devDependencies": {
-    "@types/aws-lambda": "^8.10.64",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
-    "db-migrate": "^0.11.11",
-    "db-migrate-pg": "^1.2.2",
-    "eslint": "^7.12.1",
-    "serverless": "^2.9.0",
-    "serverless-offline": "^6.8.0",
-    "typescript": "^4.0.5"
-  }
+  "engineStrict": true,
+  "author": "Dmitry N Medvedev <dmitry.medvedev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry-N-Medvedev/quno.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dmitry-N-Medvedev/quno/issues"
+  },
+  "homepage": "https://github.com/Dmitry-N-Medvedev/quno/blob/main/README.md"
 }
