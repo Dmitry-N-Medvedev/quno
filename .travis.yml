@@ -11,7 +11,7 @@ before_install:
   # - docker run -p 6379:6379 redislabs/redisearch:latest
   - mkdir RediSearch && cd RediSearch
   - git clone --recursive https://github.com/RediSearch/RediSearch.git
-  - cd RediSearch && make setup && make build && make run && cd ../..
+  - cd RediSearch && sudo make setup && make build && make run && cd ../..
 install:
   - pnpm --recursive install
 before_script:
