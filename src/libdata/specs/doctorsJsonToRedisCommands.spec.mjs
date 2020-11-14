@@ -16,9 +16,11 @@ const {
 } = chai;
 
 describe('massInsert', () => {
+  const REDISEARCH_PREFIX = 'doctor:';
+
   it('should produce redis commands in a stream', () => new Promise((resolve, reject) => {
     const doctorsJsonPath = resolvePath('../../db/seed/doctors.json');
-    const redisCommandsStream = doctorsJsonToRedisCommands(doctorsJsonPath);
+    const redisCommandsStream = doctorsJsonToRedisCommands(doctorsJsonPath, REDISEARCH_PREFIX);
     const handleRedisCommand = (command) => {
       expect(command[0]).to.equal('HMSET');
     };

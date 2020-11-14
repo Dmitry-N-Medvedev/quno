@@ -1,4 +1,6 @@
 dist: bionic
+services:
+  - docker
 language: node_js
 node_js:
   - 15.1.0
@@ -7,6 +9,8 @@ before_install:
   - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.11.1 node
   - pnpm config set store-dir ~/.pnpm-store
   - pnpm --version
+  - docker pull redislabs/redisearch
+  - docker run -p 6379:6379 redislabs/redisearch:latest
 install:
   - pnpm --recursive install
 before_script:

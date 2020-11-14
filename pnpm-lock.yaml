@@ -4,6 +4,7 @@ importers:
   src/libdata:
     dependencies:
       nanoid: 3.1.16
+      redis-fast-driver: 2.1.5
       stream-json: 1.7.1
     devDependencies:
       c8: 7.3.5
@@ -28,6 +29,7 @@ importers:
       eslint-plugin-node: ^11.1.0
       mocha: ^8.2.1
       nanoid: ^3.1.16
+      redis-fast-driver: ^2.1.5
       stream-json: ^1.7.1
 lockfileVersion: 5.2
 packages:
@@ -1518,6 +1520,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+  /nan/2.14.2:
+    dev: false
+    resolution:
+      integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
   /nanoid/3.1.12:
     dev: true
     engines:
@@ -1817,6 +1823,15 @@ packages:
       node: '>=8.10.0'
     resolution:
       integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
+  /redis-fast-driver/2.1.5:
+    dependencies:
+      nan: 2.14.2
+    dev: false
+    engines:
+      node: '>=4'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-o9lios/vSbulC2E9Fwyg8PCzSt4ZkvjLuIV5VlK7yNEgWGUwS638H48oofZ62hU9eMRdmXAyZQu9VhXr+ezb6g==
   /regexpp/3.1.0:
     dev: true
     engines:
