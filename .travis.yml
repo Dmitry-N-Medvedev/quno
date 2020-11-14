@@ -10,7 +10,7 @@ before_install:
   # - pnpm --version
   # - docker pull redislabs/redisearch
   # - docker run -p 6379:6379 redislabs/redisearch:latest
-  - git clone --recursive https://github.com/RediSearch/RediSearch.git
+  - git clone --recursive https://github.com/RediSearch/RediSearch.git .
   - sudo make setup
   - make build
   - make run
