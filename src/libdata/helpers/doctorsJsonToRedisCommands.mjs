@@ -25,7 +25,7 @@ export const doctorsJsonToRedisCommands = (inputFilePath = null) => {
   });
 
   toRedisCommandsStream._transform = function doTransform (doctor, encoding, callback) {
-    callback(null, `HMSET doctor:${nanoid(10)} ` + Object.entries(doctor).map(([field, value]) => `${field} "${value}"`).join(' '));
+    callback(null, ['HMSET', `doctor:${nanoid(10)}`, ...Object.entries(doctor).flat()]);
   };
 
   parser.on('data', function handleData (data) {
