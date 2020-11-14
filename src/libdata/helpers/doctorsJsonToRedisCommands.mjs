@@ -12,7 +12,11 @@ import {
   nanoid,
 } from 'nanoid';
 
-export const doctorsJsonToRedisCommands = (inputFilePath = null) => {
+export const doctorsJsonToRedisCommands = (inputFilePath = null, prefix = null) => {
+  if ([inputFilePath, prefix].includes(null)) {
+    throw new ReferenceError('inputFilePath || prefix is undefined');
+  }
+
   let object = null;
   let currentKey = null;
 
@@ -25,7 +29,7 @@ export const doctorsJsonToRedisCommands = (inputFilePath = null) => {
   });
 
   toRedisCommandsStream._transform = function doTransform (doctor, encoding, callback) {
-    callback(null, ['HMSET', `doctor:${nanoid(10)}`, ...Object.entries(doctor).flat()]);
+    callback(null, ['HMSET', `${prefix}:${nanoid(10)}`, ...Object.entries(doctor).flat()]);
   };
 
   parser.on('data', function handleData (data) {
