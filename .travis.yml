@@ -1,6 +1,5 @@
 dist: bionic
-services:
-  - docker
+sudo: true
 language: node_js
 node_js:
   - 15.2.0
