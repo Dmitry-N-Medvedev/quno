@@ -1,5 +1,4 @@
 dist: bionic
-sudo: true
 language: node_js
 node_js:
   - 15.2.0
@@ -10,10 +9,8 @@ before_install:
   # - pnpm --version
   # - docker pull redislabs/redisearch
   # - docker run -p 6379:6379 redislabs/redisearch:latest
-  - git clone --recursive https://github.com/RediSearch/RediSearch.git .
-  - sudo make setup
-  - make build
-  - make run
+  - git clone --recursive https://github.com/RediSearch/RediSearch.git
+  - cd RediSearch && make setup && make build && make run
 install:
   - pnpm --recursive install
 before_script:
