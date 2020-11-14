@@ -3,7 +3,7 @@ services:
   - docker
 language: node_js
 node_js:
-  - 15.1.0
+  - 15.2.0
 os: linux
 before_install:
   - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.11.1 node
