@@ -25,6 +25,9 @@ import {
 import {
   SORT_ORDER,
 } from '../constants/SORT_ORDER.mjs';
+import {
+  QunoscoreEnum,
+} from '../constants/QunoscoreEnum.mjs';
 
 const {
   describe,
@@ -198,6 +201,7 @@ describe('LibData', () => {
     const doctor = await getDoctor(redisInstance, id);
 
     expect(doctor.id).to.equal(id);
+    expect(Object.keys(QunoscoreEnum)).to.include(doctor.qunoscoreText);
   });
 
   it('should saveDoctor', async () => {
