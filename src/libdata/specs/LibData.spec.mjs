@@ -1,6 +1,9 @@
 import mocha from 'mocha';
 import chai from 'chai';
 import {
+  nanoid,
+} from 'nanoid';
+import {
   resolve as resolvePath,
 } from 'path';
 import Redis from 'redis-fast-driver';
@@ -11,6 +14,7 @@ import {
   getDoctorsNumber,
   getDoctors,
   getDoctor,
+  saveDoctor,
 } from '../LibData.mjs';
 import {
   LIMIT_MAX_VALUE,
@@ -33,7 +37,7 @@ const {
 } = chai;
 
 const REDISEARCH_INDEX_NAME = 'doctorsIndex';
-const REDISEARCH_PREFIX = 'doctor:';
+const REDISEARCH_PREFIX = 'doctor';
 
 const populateRedisWithData = (redis, pathToDoctorsJSON) => new Promise((resolve, reject) => {
     const redisCommandsStream = doctorsJsonToRedisCommands(pathToDoctorsJSON, REDISEARCH_PREFIX);
@@ -194,5 +198,49 @@ describe('LibData', () => {
     const doctor = await getDoctor(redisInstance, id);
 
     expect(doctor.id).to.equal(id);
+  });
+
+  it('should saveDoctor', async () => {
+    const slug = (name) => {
+
+    };
+    const name = `Dr. ${nanoid(3)} ${nanoid(5)}`;
+    const newDoctor = Object.freeze({
+      slug: slug(name),
+      name,
+      city: nanoid(10),
+      country: nanoid(10),
+      quno_score_number: Math.random() * 10,
+      ratings_average: Math.random() * 5,
+      treatments_last_year: Math.random() * 365,
+      years_experience: Math.random() * 15,
+      base_price: Math.random() * 1500,
+      avatar_url: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+    });
+    const newDoctorId = await saveDoctor(redisInstance, newDoctor, REDISEARCH_PREFIX);
+
+    expect(newDoctorId).to.exist;
+  });
+
+  it('should update a doctor', async () => {
+    const query = Object.freeze({
+      limit: LIMIT_MAX_VALUE,
+      offset: 0,
+      orderBy: {},
+    });
+    const doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, query);
+    const id = (doctors[0]).id;
+    const doctor = await getDoctor(redisInstance, id);
+    const updatedDoctorInfo = Object.freeze({
+      ...doctor,
+      ...{
+        name: nanoid(15),
+      },
+    });
+    const updatedDoctorId = await saveDoctor(redisInstance, updatedDoctorInfo, REDISEARCH_PREFIX);
+    const updatedDoctor = await getDoctor(redisInstance, id);
+
+    expect(updatedDoctorId).to.equal(id);
+    expect(updatedDoctor.name).to.equal(updatedDoctorInfo.name);
   });
 });

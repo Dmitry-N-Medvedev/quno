@@ -1,4 +1,7 @@
 import {
+  nanoid,
+} from 'nanoid';
+import {
   LIMIT_MAX_VALUE,
 } from './constants/LIMIT_MAX_VALUE.mjs';
 import {
@@ -96,3 +99,25 @@ export const getDoctor = async (redis = null, id = null) => {
   return deserializeDoctor(id, (await redis.rawCallAsync(command)));
 };
 
+/**
+ * This endpoint should simply receive the payload of a doctor, validate and add it to the database.
+ * 
+ * @param redis 
+ * @param doctor 
+ * @param prefix 
+ */
+export const saveDoctor = async (redis = null, doctor = null, prefix = null) => {
+  if ([redis, doctor, prefix].includes(null)) {
+    throw new ReferenceError('redis || doctor || prefix is undefined');
+  }
+
+  const id = doctor.id ?? `${prefix}:${nanoid(10)}`;
+  const command = [
+    'HMSET',
+    id,
+    ...Object.entries(doctor).flat(),
+  ];
+  const result = await redis.rawCallAsync(command);
+
+  return result === 'OK' ? id : result;
+};
