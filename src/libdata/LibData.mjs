@@ -1,7 +1,48 @@
-const LIMIT_MAX_VALUE = 1000000;
+import {
+  LIMIT_MAX_VALUE,
+} from './constants/LIMIT_MAX_VALUE.mjs';
+import {
+  deserializeDoctor,
+} from './helpers/deserializeDoctor.mjs';
+/**
+ * Returns the number of doctors in the database.
+ * 
+ * @param redis - Redis instance.
+ * @param index - Redis search index name.
+ */
+export const getDoctorsNumber = async (redis = null, index = null) => {
+  if ([redis, index].includes(null)) {
+    throw new ReferenceError('redis || index are undefined');
+  }
+
+  const command = [
+    'FT.SEARCH',
+    index,
+    '*',
+    'LIMIT',
+    0,
+    0,
+  ];
+
+  return (await redis.rawCallAsync(command))[0] ?? 0;
+};
+
+const orderByClause = (orderByObject = null) => {
+  if (Object.keys(orderByObject).length === 0) {
+    return [null];
+  }
+
+  return Object.freeze ([
+    'SORTBY',
+    ...Object.entries(orderByObject),
+  ].flat());
+};
 
 /**
  * This should return the list of all doctors, with ordering, sorting and pagination capabilities.
+ * 
+ * @param redis - Redis instance.
+ * @param index - Redis search index name.
  * 
  * The following parameters should be accepted via query parameters:
  * @param limit - max number of records to return
@@ -16,26 +57,28 @@ export const getDoctors = async (redis = null, index = null, query = null) => {
   const {
     limit = LIMIT_MAX_VALUE,
     offset = 0,
-    orderBy: {
-      field = null,
-    }
+    orderBy = null,
   } = query;
-
-  // FT.SEARCH idx:movie "war" RETURN 3 title release_year rating
-  // FT.SEARCH idx:movie "*" LIMIT 0 0
 
   const command = [
     'FT.SEARCH',
     index,
     '*',
+    ...orderByClause(orderBy),
     'LIMIT',
     offset,
     limit,
-  ];
+  ].filter((statement) => statement !== null);
 
-  console.debug({
-    command,
-  });
+  const response = await redis.rawCallAsync(command);
+  const result = [];
 
-  return redis.rawCallAsync(command);
+  for (let i = 1; i < response.length; i += 2) {
+    const doctorId = response[i];
+    const doctorFields = response[i + 1];
+
+    result.push(deserializeDoctor(doctorId, doctorFields));
+  }
+
+  return Object.freeze(result);
 };

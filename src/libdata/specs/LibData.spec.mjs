@@ -8,8 +8,18 @@ import {
   doctorsJsonToRedisCommands,
 } from '../helpers/doctorsJsonToRedisCommands.mjs';
 import {
+  getDoctorsNumber,
   getDoctors,
 } from '../LibData.mjs';
+import {
+  LIMIT_MAX_VALUE,
+} from '../constants/LIMIT_MAX_VALUE.mjs';
+import {
+  inspectObject,
+} from './inspectObject.mjs';
+import {
+  SORT_ORDER,
+} from '../constants/SORT_ORDER.mjs';
 
 const {
   describe,
@@ -119,18 +129,56 @@ describe('LibData', () => {
     redisInstance = null;
   });
 
-  it('should getDoctors', async () => {
+  it('should return the total number of doctors', async () => {
+    const doctorsNumber = await getDoctorsNumber(redisInstance, REDISEARCH_INDEX_NAME);
+
+    expect(Number.isInteger(doctorsNumber)).to.be.true;
+  });
+
+  it('should get all the doctors from the DB', async () => {
     const query = Object.freeze({
-      limit: 3,
+      limit: LIMIT_MAX_VALUE,
+      offset: 0,
+      orderBy: {},
+    });
+    const doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, query);
+
+    expect(doctors.length > 0).to.be.true;
+  }).timeout(0);
+
+  it('should get a paginated list of doctors', async () => {
+    const pageSize = 3;
+    let currentPage = 0;
+    let doctors = null;
+
+    do {
+      const pageQuery = Object.freeze({
+        limit: pageSize,
+        offset: currentPage * pageSize,
+        orderBy: {},
+      });
+
+      doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, pageQuery);
+      currentPage += 1;
+    } while (doctors.length > 0);
+  });
+
+  it(`should order doctors list by the "quno_score_number" field ${SORT_ORDER.ASC}`, async () => {
+    const query = Object.freeze({
+      limit: LIMIT_MAX_VALUE,
       offset: 0,
       orderBy: {
-        field: null,
+        quno_score_number: SORT_ORDER.ASC,
       },
     });
     const doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, query);
 
-    console.debug({doctors});
+    expect(doctors.length > 0).to.be.true;
 
-    expect(Array.isArray(doctors));
-  }).timeout(0);
+    doctors.map((doctor) => doctor.quno_score_number).forEach((quno_score_number, index, array) => {
+      if (index < array.length -1) {
+        expect(quno_score_number <= array[index + 1]).to.be.true;
+      }
+    });
+  });
 });
