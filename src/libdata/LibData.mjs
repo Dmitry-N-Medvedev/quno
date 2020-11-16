@@ -82,3 +82,17 @@ export const getDoctors = async (redis = null, index = null, query = null) => {
 
   return Object.freeze(result);
 };
+
+export const getDoctor = async (redis = null, id = null) => {
+  if ([redis, id].includes(null)) {
+    throw new ReferenceError('redis || id is undefined');
+  }
+
+  const command = [
+    'HGETALL',
+    id,
+  ];
+
+  return deserializeDoctor(id, (await redis.rawCallAsync(command)));
+};
+
