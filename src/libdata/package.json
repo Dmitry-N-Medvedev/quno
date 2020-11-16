@@ -25,9 +25,9 @@
   },
   "homepage": "https://github.com/Dmitry-N-Medvedev/quno/blob/main/README.md",
   "dependencies": {
-    "nanoid": "^3.1.16",
     "redis-fast-driver": "^2.1.5",
-    "stream-json": "^1.7.1"
+    "stream-json": "^1.7.1",
+    "nanoid": "^3.1.16"
   },
   "devDependencies": {
     "c8": "^7.3.5",
