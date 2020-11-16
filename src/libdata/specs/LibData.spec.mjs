@@ -10,6 +10,7 @@ import {
 import {
   getDoctorsNumber,
   getDoctors,
+  getDoctor,
 } from '../LibData.mjs';
 import {
   LIMIT_MAX_VALUE,
@@ -180,5 +181,18 @@ describe('LibData', () => {
         expect(quno_score_number <= array[index + 1]).to.be.true;
       }
     });
+  });
+
+  it('should get a doctor by id', async () => {
+    const query = Object.freeze({
+      limit: LIMIT_MAX_VALUE,
+      offset: 0,
+      orderBy: {},
+    });
+    const doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, query);
+    const id = (doctors[0]).id;
+    const doctor = await getDoctor(redisInstance, id);
+
+    expect(doctor.id).to.equal(id);
   });
 });
