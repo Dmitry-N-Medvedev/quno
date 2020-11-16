@@ -4,7 +4,7 @@
   "description": "Quno challenge for Backend",
   "engines": {
     "node": "=15.2.0",
-    "pnpm": "=5.11.1"
+    "pnpm": "=5.12.0"
   },
   "engineStrict": true,
   "author": "Dmitry N Medvedev <dmitry.medvedev@gmail.com>",
