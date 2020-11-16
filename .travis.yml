@@ -4,7 +4,7 @@ node_js:
   - 15.2.0
 os: linux
 before_install:
-  - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.11.1 node
+  - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.12.0 node
   - pnpm config set store-dir ~/.pnpm-store
   # - pnpm --version
   # - docker pull redislabs/redisearch
