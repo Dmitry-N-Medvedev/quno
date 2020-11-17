@@ -1,4 +1,6 @@
 dist: bionic
+services:
+  - redis
 language: node_js
 node_js:
   - 15.2.0
@@ -6,12 +8,13 @@ os: linux
 before_install:
   - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.12.0 node
   - pnpm config set store-dir ~/.pnpm-store
-  # - pnpm --version
-  # - docker pull redislabs/redisearch
-  # - docker run -p 6379:6379 redislabs/redisearch:latest
-  - mkdir RediSearch && cd RediSearch
-  - git clone --recursive https://github.com/RediSearch/RediSearch.git
-  - cd RediSearch && sudo make setup && make build && make run && cd ../..
+  # - mkdir rs && cd rs && git clone --recursive https://github.com/RediSearch/RediSearch.git . && git checkout v2.0.2 && make build && cd $TRAVIS_BUILD_DIR
+  # - mkdir -p $TRAVIS_BUILD_DIR/redisearch && sudo chmod 755 $TRAVIS_BUILD_DIR/redisearch
+  # - sudo cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
+  # - sudo chown -R redis:redis $TRAVIS_BUILD_DIR/redisearch
+  # - ls -la $TRAVIS_BUILD_DIR/redisearch
+  # - redis-cli MODULE LOAD $TRAVIS_BUILD_DIR/redisearch/redisearch.so
+  # - sudo cat /var/log/redis/redis-server.log
 install:
   - pnpm --recursive install
 before_script:
