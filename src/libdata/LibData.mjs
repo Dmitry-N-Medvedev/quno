@@ -73,17 +73,20 @@ export const getDoctors = async (redis = null, index = null, query = null) => {
     limit,
   ].filter((statement) => statement !== null);
 
-  const response = await redis.rawCallAsync(command);
   const result = [];
 
-  for (let i = 1; i < response.length; i += 2) {
-    const doctorId = response[i];
-    const doctorFields = response[i + 1];
-
-    result.push(deserializeDoctor(doctorId, doctorFields));
+  try {
+    const response = await redis.rawCallAsync(command);
+  
+    for (let i = 1; i < response.length; i += 2) {
+      const doctorId = response[i];
+      const doctorFields = response[i + 1];
+  
+      result.push(deserializeDoctor(doctorId, doctorFields));
+    }
+  } catch {} finally {
+    return Object.freeze(result);
   }
-
-  return Object.freeze(result);
 };
 
 export const getDoctor = async (redis = null, id = null) => {

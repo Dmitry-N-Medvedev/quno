@@ -50,7 +50,7 @@ const populateRedisWithData = (redis, pathToDoctorsJSON) => new Promise((resolve
     redisCommandsStream.once('close', resolve);
     redisCommandsStream.once('error', reject);
 });
-const clearRedisData = (redis) => redis.rawCallAsync(['FLUSHALL', 'ASYNC']);
+const clearRedisData = (redis) => redis.rawCallAsync(['FLUSHDB']);
 const createRediSearchIndex = async (redis) => {
   return redis.rawCallAsync([
     'FT.CREATE',
@@ -92,7 +92,13 @@ const createRediSearchIndex = async (redis) => {
     'TEXT',
   ]);
 };
-const dropRediSearchIndex = async (redis) => redis.rawCallAsync(['FT.DROPINDEX', REDISEARCH_INDEX_NAME]);
+const dropRediSearchIndex = async (redis, index) => {
+  try {
+    await redis.rawCallAsync(['FT.DROPINDEX', index]);
+  } catch {} finally {
+    return Promise.resolve();
+  }
+};
 
 describe('LibData', () => {
   const redisEventPromise = (redis, event) => new Promise((resolve) => redis.once(event, resolve));
@@ -121,12 +127,11 @@ describe('LibData', () => {
     expect(redisInstance.readyFirstTime);
 
     await createRediSearchIndex(redisInstance);
-
-    return populateRedisWithData(redisInstance, doctorsJson);
+    await populateRedisWithData(redisInstance, doctorsJson);
   });
 
   after(async () => {
-    await dropRediSearchIndex(redisInstance);
+    await dropRediSearchIndex(redisInstance, REDISEARCH_INDEX_NAME);
     await clearRedisData(redisInstance);
     await redisInstance.end();
     await redisEventPromise(redisInstance, 'end');
@@ -135,6 +140,27 @@ describe('LibData', () => {
     expect(redisInstance.destroyed === true);
 
     redisInstance = null;
+  });
+
+  it('should cope with no data in DB', async () => {
+    try {
+      await clearRedisData(redisInstance);
+      await dropRediSearchIndex(redisInstance, REDISEARCH_INDEX_NAME);
+  
+      const query = Object.freeze({
+        limit: LIMIT_MAX_VALUE,
+        offset: 0,
+        orderBy: {},
+      });
+      const doctors = await getDoctors(redisInstance, REDISEARCH_INDEX_NAME, query);
+  
+      expect(doctors).to.have.lengthOf(0);
+    } catch (error) {
+      throw error;
+    } finally {
+      await createRediSearchIndex(redisInstance);
+      await populateRedisWithData(redisInstance, doctorsJson);
+    }
   });
 
   it('should return the total number of doctors', async () => {
