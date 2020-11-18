@@ -1,26 +1,34 @@
 dist: focal
 addons:
   apt:
-    update: true
     packages:
       - redis-server
+services:
+  - redis
 language: node_js
 node_js:
   - 15.2.1
 os: linux
 before_install:
-  # - sudo apt-get update
-  # - sudo apt-get -y install redis-server
+  # # - sudo usermod -a -G travis redis
+  # - wget https://download.redis.io/redis-stable.tar.gz && tar xzf redis-stable.tar.gz
+  # - cd redis-stable && make && sudo make install
+  # - sed -i 's/supervised no/supervised systemd/g' ./redis.conf
+  # - sed -i 's/dir .\//dir \/var\/lib\/redis/g' ./redis.conf
+  # - sudo mkdir /etc/redis && sudo cp ./redis.conf /etc/redis
+  # - sudo cp ./etc/systemd/system/redis.service /etc/systemd/system
+  # - sudo adduser --system --group --no-create-home redis
+  # - sudo mkdir /var/lib/redis
+  # - sudo chown redis:redis /var/lib/redis
+  # - sudo chmod 770 /var/lib/redis
+  # - sudo systemctl start redis
   # - sudo systemctl status redis
+  # - cd $TRAVIS_BUILD_DIR
   - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.12.0 node
   - pnpm config set store-dir ~/.pnpm-store
   - mkdir rs && cd rs && git clone --recursive https://github.com/RediSearch/RediSearch.git . && git checkout v2.0.2 && sudo make setup && make build && cd $TRAVIS_BUILD_DIR
-  - mkdir -p $TRAVIS_BUILD_DIR/redisearch
-  - cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
-  - ls -la $TRAVIS_BUILD_DIR/redisearch
-  - namei -l $TRAVIS_BUILD_DIR/redisearch/redisearch.so
-  - redis-cli MODULE LOAD $TRAVIS_BUILD_DIR/redisearch/redisearch.so
-  - sudo cat /var/log/redis/redis-server.log
+  - sudo cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so /etc/redis
+  - redis-cli MODULE LOAD /etc/redis/redisearch.so
 install:
   - pnpm --recursive install
 before_script:
@@ -31,8 +39,14 @@ script:
   - pnpm --recursive run test
 after_success:
   - pnpm --recursive run coverage
-  - cd sources/libapi && ../../cc-test-reporter format-coverage -t lcov&& cd ../..
-  - cd sources/libapi && ../../cc-test-reporter after-build --exit-code $? && cd ../..
+  - mkdir ./coverage-reports
+  - cd src/specs && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.specs.json && cd $TRAVIS_BUILD_DIR
+  - cd src/libdata && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.libdata.json && cd $TRAVIS_BUILD_DIR
+  - cd src/libapiserver && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.libapiserver.json && cd $TRAVIS_BUILD_DIR
+  - ls -la ./coverage-reports
+  - ./cc-test-reporter sum-coverage ./coverage-reports/codeclimate.*.json --parts 3 --output ./coverage-reports/codeclimate.total.json
+  - ./cc-test-reporter upload-coverage -i ./coverage-reports/codeclimate.total.json
+  - ./cc-test-reporter after-build --exit-code $?
 cache:
   npm: false
   directories:
