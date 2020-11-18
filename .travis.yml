@@ -8,7 +8,7 @@ before_install:
   - pnpm config set store-dir ~/.pnpm-store
   - mkdir rs && cd rs && git clone --recursive https://github.com/RediSearch/RediSearch.git . && git checkout v2.0.2 && make build && cd $TRAVIS_BUILD_DIR
   - mkdir -p $TRAVIS_BUILD_DIR/redisearch
-  - sudo $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
+  - cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
   - ls -la $TRAVIS_BUILD_DIR/redisearch
   - namei -l $TRAVIS_BUILD_DIR/rs/build/redisearch.so
   - redis-cli MODULE LOAD $TRAVIS_BUILD_DIR/redisearch/redisearch.so
