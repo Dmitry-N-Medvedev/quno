@@ -43,10 +43,9 @@ after_success:
   - cd src/specs && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.specs.json && cd $TRAVIS_BUILD_DIR
   - cd src/libdata && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.libdata.json && cd $TRAVIS_BUILD_DIR
   - cd src/libapiserver && ../../cc-test-reporter format-coverage --input-type lcov --output ../../coverage-reports/codeclimate.libapiserver.json && cd $TRAVIS_BUILD_DIR
-  - ls -la ./coverage-reports
   - ./cc-test-reporter sum-coverage ./coverage-reports/codeclimate.*.json --parts 3 --output ./coverage-reports/codeclimate.total.json
   - ./cc-test-reporter upload-coverage -i ./coverage-reports/codeclimate.total.json
-  - ./cc-test-reporter after-build --exit-code $?
+  - ./cc-test-reporter after-build --exit-code 0
 cache:
   npm: false
   directories:
