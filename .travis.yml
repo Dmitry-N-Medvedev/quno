@@ -10,7 +10,7 @@ before_install:
   - mkdir -p $TRAVIS_BUILD_DIR/redisearch
   - cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
   - ls -la $TRAVIS_BUILD_DIR/redisearch
-  - namei -l $TRAVIS_BUILD_DIR/rs/build/redisearch.so
+  - namei -l $TRAVIS_BUILD_DIR/redisearch/redisearch.so
   - redis-cli MODULE LOAD $TRAVIS_BUILD_DIR/redisearch/redisearch.so
   - sudo cat /var/log/redis/redis-server.log
 install:
