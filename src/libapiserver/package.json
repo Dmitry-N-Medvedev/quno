@@ -1,0 +1,153 @@
+{
+  "name": "@dmitry-n-medvedev/quno-libapiserver",
+  "version": "0.0.0",
+  "description": "[lib] api server",
+  "engines": {
+    "node": "=15.2.1",
+    "pnpm": "=5.12.0"
+  },
+  "engineStrict": true,
+  "main": "LibApiServer.mjs",
+  "type": "module",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint ./ --ext .mjs",
+    "test": "cross-env NODE_ENV=test NODE_DEBUG=LibApiServer ./node_modules/.bin/c8 ./node_modules/.bin/mocha -- --trace-warnings",
+    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov --reporter=lcov | ./node_modules/.bin/coveralls"
+  },
+  "author": "Dmitry N Medvedev <dmitry.medvedev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry-N-Medvedev/quno.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dmitry-N-Medvedev/quno/issues"
+  },
+  "homepage": "https://github.com/Dmitry-N-Medvedev/quno/blob/main/README.md",
+  "dependencies": {
+    "@dmitry-n-medvedev/quno-libdata": "workspace:^0.0.0",
+    "nanoid": "^3.1.16",
+    "redis-fast-driver": "^2.1.5",
+    "stream-json": "^1.7.1",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v18.8.0"
+  },
+  "devDependencies": {
+    "c8": "^7.3.5",
+    "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-chai-friendly": "^0.6.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "got": "^11.8.0",
+    "mocha": "^8.2.1"
+  },
+  "eslintConfig": {
+    "parser": "esprima",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "extends": [
+      "airbnb-base",
+      "plugin:node/recommended"
+    ],
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "env": {
+      "browser": true,
+      "es2020": true,
+      "es6": true,
+      "mocha": true,
+      "node": true,
+      "serviceworker": true,
+      "worker": true
+    },
+    "plugins": [
+      "chai-friendly"
+    ],
+    "ignorePatterns": [
+      "/node_modules/*"
+    ],
+    "rules": {
+      "no-unused-expressions": 0,
+      "chai-friendly/no-unused-expressions": 2,
+      "no-param-reassign": 0,
+      "camelcase": 0,
+      "node/exports-style": [
+        "error",
+        "module.exports"
+      ],
+      "node/file-extension-in-import": [
+        "error",
+        "always"
+      ],
+      "node/prefer-global/buffer": [
+        "error",
+        "always"
+      ],
+      "node/prefer-global/console": [
+        "error",
+        "always"
+      ],
+      "node/prefer-global/process": [
+        "error",
+        "always"
+      ],
+      "node/prefer-global/url-search-params": [
+        "error",
+        "always"
+      ],
+      "node/prefer-global/url": [
+        "error",
+        "always"
+      ],
+      "node/prefer-promises/dns": "error",
+      "node/prefer-promises/fs": "error",
+      "node/no-unpublished-require": 0,
+      "node/no-missing-require": 0,
+      "import/no-extraneous-dependencies": 0,
+      "node/no-unpublished-import": 0,
+      "node/no-unsupported-features/es-syntax": 0,
+      "import/extensions": [
+        "error",
+        {
+          "js": "always",
+          "mjs": "always",
+          "json": "always"
+        }
+      ],
+      "node/shebang": 0,
+      "import/prefer-default-export": 0,
+      "no-irregular-whitespace": 0,
+      "lines-between-class-members": 0,
+      "import/no-mutable-exports": 0
+    }
+  },
+  "mocha": {
+    "allow-uncaught": false,
+    "async-only": true,
+    "bail": true,
+    "check-leaks": true,
+    "exit": true,
+    "forbid-only": false,
+    "forbid-pending": true,
+    "slow": 50,
+    "timeout": 1000,
+    "color": true,
+    "diff": true,
+    "full-trace": true,
+    "growl": false,
+    "inline-diffs": true,
+    "reporter": "spec",
+    "no-config": true,
+    "no-opts": true,
+    "spec": [
+      "**/specs/*.mjs"
+    ]
+  }
+}

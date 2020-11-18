@@ -8,9 +8,6 @@ import {
 } from 'path';
 import Redis from 'redis-fast-driver';
 import {
-  doctorsJsonToRedisCommands,
-} from '../helpers/doctorsJsonToRedisCommands.mjs';
-import {
   getDoctorsNumber,
   getDoctors,
   getDoctor,
@@ -20,14 +17,15 @@ import {
   LIMIT_MAX_VALUE,
 } from '../constants/LIMIT_MAX_VALUE.mjs';
 import {
-  inspectObject,
-} from './inspectObject.mjs';
-import {
   SORT_ORDER,
 } from '../constants/SORT_ORDER.mjs';
 import {
   QunoscoreEnum,
 } from '../constants/QunoscoreEnum.mjs';
+import {
+  setup,
+  clean,
+} from '../../specs/specs-setup-teardown.mjs';
 
 const {
   describe,
@@ -39,69 +37,10 @@ const {
   expect,
 } = chai;
 
-const REDISEARCH_INDEX_NAME = 'doctorsIndex';
-const REDISEARCH_PREFIX = 'doctor';
-
-const populateRedisWithData = (redis, pathToDoctorsJSON) => new Promise((resolve, reject) => {
-    const redisCommandsStream = doctorsJsonToRedisCommands(pathToDoctorsJSON, REDISEARCH_PREFIX);
-    const handleRedisCommand = async (command) => redis.rawCallAsync(command);
-
-    redisCommandsStream.on('data', handleRedisCommand);
-    redisCommandsStream.once('close', resolve);
-    redisCommandsStream.once('error', reject);
-});
-const clearRedisData = (redis) => redis.rawCallAsync(['FLUSHDB']);
-const createRediSearchIndex = async (redis) => {
-  return redis.rawCallAsync([
-    'FT.CREATE',
-    REDISEARCH_INDEX_NAME,
-    'ON',
-    'HASH',
-    'PREFIX',
-    '1',
-    REDISEARCH_PREFIX,
-    'SCHEMA',
-    'slug',
-    'TAG',
-    'SORTABLE',
-    'name',
-    'TEXT',
-    'SORTABLE',
-    'city',
-    'TAG',
-    'SORTABLE',
-    'country',
-    'TAG',
-    'SORTABLE',
-    'quno_score_number',
-    'NUMERIC',
-    'SORTABLE',
-    'ratings_average',
-    'NUMERIC',
-    'SORTABLE',
-    'treatments_last_year',
-    'NUMERIC',
-    'SORTABLE',
-    'years_experience',
-    'NUMERIC',
-    'SORTABLE',
-    'base_price',
-    'NUMERIC',
-    'SORTABLE',
-    'avatar_url',
-    'TEXT',
-  ]);
-};
-const dropRediSearchIndex = async (redis, index) => {
-  try {
-    await redis.rawCallAsync(['FT.DROPINDEX', index]);
-  } catch {} finally {
-    return Promise.resolve();
-  }
-};
 
 describe('LibData', () => {
-  const redisEventPromise = (redis, event) => new Promise((resolve) => redis.once(event, resolve));
+  const REDISEARCH_INDEX_NAME = 'doctorsIndex';
+  const REDISEARCH_PREFIX = 'doctor';
   const doctorsJson = resolvePath('../../db/seed/doctors.json');
   const redisOptions = Object.freeze({
     host: '127.0.0.1',
@@ -115,32 +54,14 @@ describe('LibData', () => {
   let redisInstance = null;
 
   before(async () => {
-    redisInstance = new Redis(redisOptions);
-    redisInstance.connect();
-
-    await Promise.all([
-      redisEventPromise(redisInstance, 'ready'),
-      redisEventPromise(redisInstance, 'connect'),
-    ]);
-
-    expect(redisInstance.ready);
-    expect(redisInstance.readyFirstTime);
-
-    await createRediSearchIndex(redisInstance);
-    await populateRedisWithData(redisInstance, doctorsJson);
+    redisInstance = await setup(redisOptions, REDISEARCH_INDEX_NAME, REDISEARCH_PREFIX, doctorsJson);
   });
 
-  after(async () => {
-    await dropRediSearchIndex(redisInstance, REDISEARCH_INDEX_NAME);
-    await clearRedisData(redisInstance);
-    await redisInstance.end();
-    await redisEventPromise(redisInstance, 'end');
+  after(async () => clean(REDISEARCH_INDEX_NAME));
 
-    expect(redisInstance.ready === false);
-    expect(redisInstance.destroyed === true);
+  /*
 
-    redisInstance = null;
-  });
+  TODO: think this over. later.
 
   it('should cope with no data in DB', async () => {
     try {
@@ -162,6 +83,7 @@ describe('LibData', () => {
       await populateRedisWithData(redisInstance, doctorsJson);
     }
   });
+  */
 
   it('should return the total number of doctors', async () => {
     const doctorsNumber = await getDoctorsNumber(redisInstance, REDISEARCH_INDEX_NAME);
@@ -231,9 +153,7 @@ describe('LibData', () => {
   });
 
   it('should saveDoctor', async () => {
-    const slug = (name) => {
-
-    };
+    const slug = (name) => name.replace(' ', '-').toLowerCase();
     const name = `Dr. ${nanoid(3)} ${nanoid(5)}`;
     const newDoctor = Object.freeze({
       slug: slug(name),
