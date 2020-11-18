@@ -14,7 +14,7 @@ before_install:
   # - sudo systemctl status redis
   - curl -L https://raw.githubusercontent.com/pnpm/self-installer/master/install.js | PNPM_VERSION=5.12.0 node
   - pnpm config set store-dir ~/.pnpm-store
-  - mkdir rs && cd rs && git clone --recursive https://github.com/RediSearch/RediSearch.git . && git checkout v2.0.2 && make build && cd $TRAVIS_BUILD_DIR
+  - mkdir rs && cd rs && git clone --recursive https://github.com/RediSearch/RediSearch.git . && git checkout v2.0.2 && sudo make setup && make build && cd $TRAVIS_BUILD_DIR
   - mkdir -p $TRAVIS_BUILD_DIR/redisearch
   - cp $TRAVIS_BUILD_DIR/rs/build/redisearch.so $TRAVIS_BUILD_DIR/redisearch
   - ls -la $TRAVIS_BUILD_DIR/redisearch
