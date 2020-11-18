@@ -1,6 +1,13 @@
 importers:
   .:
     specifiers: {}
+  src/apiserver:
+    dependencies:
+      '@dmitry-n-medvedev/quno-libapiserver': 'link:../libapiserver'
+      dotenv: 8.2.0
+    specifiers:
+      '@dmitry-n-medvedev/quno-libapiserver': 'workspace:^0.0.0'
+      dotenv: ^8.2.0
   src/libapiserver:
     dependencies:
       '@dmitry-n-medvedev/quno-libdata': 'link:../libdata'
@@ -718,6 +725,12 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /ecc-jsbn/0.1.2:
     dependencies:
       jsbn: 0.1.1

@@ -1,0 +1,29 @@
+{
+  "name": "@dmitry-n-medvedev/quno-challenge-apiserver",
+  "version": "0.0.0",
+  "description": "API Server (Quno challenge for Backend)",
+  "engines": {
+    "node": "=15.2.1",
+    "pnpm": "=5.12.0"
+  },
+  "engineStrict": true,
+  "main": "apiserver.mjs",
+  "author": "Dmitry N Medvedev <dmitry.medvedev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./apiserver.mjs",
+    "coverage": "./node_modules/.bin/c8 report --reporter=text-lcov --reporter=lcov | ./node_modules/.bin/coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry-N-Medvedev/quno.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Dmitry-N-Medvedev/quno/issues"
+  },
+  "homepage": "https://github.com/Dmitry-N-Medvedev/quno/blob/main/README.md",
+  "dependencies": {
+    "@dmitry-n-medvedev/quno-libapiserver": "workspace:^0.0.0",
+    "dotenv": "^8.2.0"
+  }
+}
