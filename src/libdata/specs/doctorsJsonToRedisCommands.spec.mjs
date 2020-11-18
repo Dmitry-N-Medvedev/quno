@@ -5,7 +5,7 @@ import {
 } from 'path';
 import {
   doctorsJsonToRedisCommands,
-} from '../helpers/doctorsJsonToRedisCommands.mjs';
+} from '../../specs/helpers/doctorsJsonToRedisCommands.mjs';
 
 const {
   describe,
